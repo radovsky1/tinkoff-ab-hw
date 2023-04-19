@@ -15,7 +15,7 @@ class UserHandler:
         self, name: str, email: str, bio: str, password: str
     ) -> User:
         user = User(
-            id=uuid.UUID(), name=name, email=email, bio=bio, password=password
+            id=uuid.uuid4(), name=name, email=email, bio=bio, password=password
         )
         try:
             await self.usecase.create_user(user)
