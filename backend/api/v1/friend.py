@@ -13,7 +13,7 @@ class FriendHandler:
 
     async def create_friend(
         self, user_id: uuid.UUID, friend_id: uuid.UUID
-    ) -> None:
+    ) -> Friend:
         friend = Friend(user_id=user_id, friend_id=friend_id)
         try:
             await self.usecase.create_friend(friend)
@@ -21,7 +21,7 @@ class FriendHandler:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)
             )
-        return None
+        return friend
 
     async def get_friends(self, user_id: uuid.UUID) -> list[User]:
         try:
@@ -34,7 +34,7 @@ class FriendHandler:
 
     async def delete_friend(
         self, user_id: uuid.UUID, friend_id: uuid.UUID
-    ) -> None:
+    ) -> Friend:
         friend = Friend(user_id=user_id, friend_id=friend_id)
         try:
             await self.usecase.delete_friend(friend)
@@ -42,4 +42,4 @@ class FriendHandler:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)
             )
-        return None
+        return friend

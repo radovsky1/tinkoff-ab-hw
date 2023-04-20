@@ -3,9 +3,11 @@ from fastapi import status
 
 from .friend import FriendHandler
 from .user import UserHandler
+from .auth import AuthHandler
 
 user_handler = UserHandler()
 friend_handler = FriendHandler()
+auth_handler = AuthHandler()
 
 user_router = APIRouter(
     responses={404: {"description": "Not found"}},
@@ -82,5 +84,18 @@ friend_router.add_api_route(
     status_code=status.HTTP_200_OK,
     description="Delete a friend",
     name="Delete a friend",
+    response_model_by_alias=False,
+)
+
+auth_router = APIRouter(
+    responses={404: {"description": "Not found"}},
+)
+
+auth_router.add_api_route(
+    path="/login",
+    endpoint=auth_handler.login,
+    methods=["POST"],
+    description="Login",
+    name="Login",
     response_model_by_alias=False,
 )

@@ -3,13 +3,21 @@ import uuid
 from .usecase import UserInterface
 from backend.domain import User
 from backend.repository import UserRepository, UserRepoInterface
+from passlib.context import CryptContext
 
 
 class UserUsecase(UserInterface):
     def __init__(self, repo: UserRepoInterface = UserRepository()):
         self.repo = repo
+        self.password_context = CryptContext(
+            schemes=["bcrypt"], deprecated="auto"
+        )
+
+    def hash_password(self, password: str) -> str:
+        return self.password_context.hash(password)
 
     async def create_user(self, user: User) -> None:
+        user.password = self.hash_password(user.password)
         return await self.repo.create_user(user)
 
     async def get_user_by_id(self, user_id: uuid.UUID) -> User:
