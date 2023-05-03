@@ -3,13 +3,7 @@ import uuid
 from fastapi import HTTPException
 
 from backend.usecase import AuthService
-from pydantic import BaseModel
-
-
-class TokenData(BaseModel):
-    access_token: str
-    access_expires: int
-    token_type: str = "Bearer"
+from backend.usecase.auth import TokenData
 
 
 def to_json_response(data: TokenData) -> dict:

@@ -11,6 +11,7 @@ def init_middlewares(app_: FastAPI) -> None:
             prefix="/api/v1",
             endpoints=[
                 "/friends/",
+                "/chats/",
             ],
         ),
     )

@@ -38,7 +38,7 @@ class AuthBackend(AuthenticationBackend):
         if cur_path not in self.endpoints:
             return False, UnauthenticatedUser()
 
-        authorization: str = conn.headers.get("Authorization")
+        authorization = conn.headers.get("Authorization")
         if not authorization:
             raise CustomAuthenticationError
         scheme, param = get_authorization_scheme_param(authorization)

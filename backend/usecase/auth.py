@@ -17,7 +17,7 @@ class TokenData(BaseModel):
 
 
 class TokenPayload(BaseModel):
-    sub: int
+    sub: uuid.UUID
     name: str
 
 
