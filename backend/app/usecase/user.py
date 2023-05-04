@@ -1,8 +1,8 @@
 import uuid
 
 from .usecase import UserInterface
-from backend.domain import User
-from backend.repository import UserRepository, UserRepoInterface
+from app.domain import User
+from app.repository import UserRepository, UserRepoInterface
 
 
 class UserUsecase(UserInterface):

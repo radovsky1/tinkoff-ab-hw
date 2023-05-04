@@ -3,8 +3,8 @@ import uuid
 from fastapi import HTTPException
 from starlette import status
 
-from backend.domain import User, Friend
-from backend.usecase import FriendInterface, FriendUsecase
+from app.domain import User, Friend
+from app.usecase import FriendInterface, FriendUsecase
 
 
 class FriendHandler:

@@ -1,0 +1,6 @@
+__pycache__
+./venv
+.idea
+Makefile
+app/.mypy_cache
+.pytest_cache

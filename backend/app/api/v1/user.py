@@ -3,8 +3,8 @@ import uuid
 from fastapi import HTTPException
 from starlette import status
 
-from backend.domain import User
-from backend.usecase import UserInterface, UserUsecase
+from app.domain import User
+from app.usecase import UserInterface, UserUsecase
 
 
 class UserHandler:
