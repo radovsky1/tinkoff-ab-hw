@@ -6,8 +6,8 @@ import jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
 
-from backend.domain import User
-from backend.repository import UserRepository
+from app.domain import User
+from app.repository import UserRepository
 
 
 class TokenData(BaseModel):

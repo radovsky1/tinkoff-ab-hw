@@ -4,7 +4,7 @@ from starlette.middleware.authentication import (
 )
 from starlette.requests import HTTPConnection
 
-from backend.core.schemas.base import BaseAuthenticationError
+from app.core.schemas.base import BaseAuthenticationError
 
 
 class AuthenticationMiddleware(BaseAuthenticationMiddleware):

@@ -3,7 +3,7 @@ import uuid
 from fastapi import WebSocket, WebSocketDisconnect, WebSocketException
 from starlette import status
 
-from backend.usecase import ChatUsecase
+from app.usecase import ChatUsecase
 from .wsmanager import manager
 
 

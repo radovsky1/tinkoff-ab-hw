@@ -2,8 +2,8 @@ import uuid
 
 from fastapi import HTTPException
 
-from backend.usecase import AuthService
-from backend.usecase.auth import TokenData
+from app.usecase import AuthService
+from app.usecase.auth import TokenData
 
 
 def to_json_response(data: TokenData) -> dict:

@@ -7,9 +7,9 @@ from starlette.authentication import (
 )
 from starlette.requests import HTTPConnection
 
-from backend.core.schemas.base import BaseAuthenticationError
-from backend.domain import User
-from backend.usecase.auth import AuthService
+from app.core.schemas.base import BaseAuthenticationError
+from app.domain import User
+from app.usecase.auth import AuthService
 
 
 class CustomAuthenticationError(BaseAuthenticationError):

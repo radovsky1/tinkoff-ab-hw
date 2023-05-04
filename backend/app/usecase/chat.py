@@ -1,6 +1,6 @@
 import uuid
 from .usecase import ChatInterface
-from backend.repository import ChatRepository, ChatRepoInterface
+from app.repository import ChatRepository, ChatRepoInterface
 
 
 class ChatUsecase(ChatInterface):

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from backend.api.v1.auth.auth_backend import AuthBackend
-from backend.core.middlewares.auth import AuthenticationMiddleware
+from app.api.v1.auth.auth_backend import AuthBackend
+from app.core.middlewares.auth import AuthenticationMiddleware
 
 
 def init_middlewares(app_: FastAPI) -> None:

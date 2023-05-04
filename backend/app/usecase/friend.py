@@ -1,8 +1,8 @@
 import uuid
 
-from backend.domain import User, Friend
+from app.domain import User, Friend
 from .usecase import FriendInterface
-from backend.repository import FriendRepository, FriendRepoInterface
+from app.repository import FriendRepository, FriendRepoInterface
 
 
 class FriendUsecase(FriendInterface):
