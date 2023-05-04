@@ -34,3 +34,11 @@ class FriendInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     async def delete_friend(self, friend: Friend) -> None:
         pass
+
+
+class ChatInterface(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    async def is_friend(
+        self, user_id: uuid.UUID, friend_id: uuid.UUID
+    ) -> bool:
+        pass
