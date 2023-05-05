@@ -1,11 +1,12 @@
-import uuid
 import typing as tp
+import uuid
 
+from sqlalchemy import select, update
+
+from .base import database, AsyncDatabaseSession
+from .model import Users as UserModel
 from .repository import UserInterface
 from ..domain import User
-from sqlalchemy import select, update, insert
-from .base import database, AsyncDatabaseSession
-from .model import UserBase, UserCreate, Users as UserModel
 
 
 class UserRepository(UserInterface):

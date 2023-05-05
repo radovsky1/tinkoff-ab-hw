@@ -1,8 +1,7 @@
 import typing as tp
 import uuid
 
-from sqlalchemy import select, insert, delete
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, delete
 
 from .base import database, AsyncDatabaseSession
 from .model import Friends as FriendModel, Users as UserModel

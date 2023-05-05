@@ -1,7 +1,6 @@
 import uuid
 
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from .base import database, AsyncDatabaseSession
 from .model import Friends as FriendModel
@@ -13,7 +12,7 @@ class ChatRepository(ChatInterface):
         self.db = db
 
     async def is_friend(
-            self, user_id: uuid.UUID, friend_id: uuid.UUID
+        self, user_id: uuid.UUID, friend_id: uuid.UUID
     ) -> bool:
         result = await self.db.execute(
             select()
