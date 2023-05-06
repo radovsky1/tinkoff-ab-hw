@@ -1,5 +1,6 @@
-import uuid
+import datetime
 import typing as tp
+import uuid
 
 from sqlmodel import SQLModel, Field, PrimaryKeyConstraint
 
@@ -9,6 +10,7 @@ class UserBase(SQLModel):
     email: tp.Optional[str] = None
     bio: tp.Optional[str] = None
     password: tp.Optional[str] = None
+    last_login: tp.Optional[datetime.datetime] = None
 
 
 class UserCreate(UserBase):

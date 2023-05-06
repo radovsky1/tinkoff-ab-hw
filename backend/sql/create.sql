@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS users
     email TEXT                     NOT NULL,
     bio TEXT                     NOT NULL,
     password   TEXT                     NOT NULL,
-    created    TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
+    created    TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    last_login TIMESTAMP WITH TIME ZONE
 );
 
 CREATE TABLE IF NOT EXISTS friends

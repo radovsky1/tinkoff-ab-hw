@@ -2,6 +2,7 @@ import typing as tp
 import uuid
 
 from sqlalchemy import select, update
+from datetime import datetime
 
 from .base import database, AsyncDatabaseSession
 from .model import Users as UserModel
@@ -20,6 +21,7 @@ class UserRepository(UserInterface):
             email=user.email,
             bio=user.bio,
             password=user.password,
+            last_login=datetime.now(),
         )
         self.db.add(u)
         await self.db.commit()
@@ -40,7 +42,6 @@ class UserRepository(UserInterface):
         )
 
     async def get_users(self) -> tp.List[User]:
-        print(await self.db.execute('SELECT * FROM pg_catalog.pg_tables'))
         result = await self.db.execute(select(UserModel))
         users = result.scalars().all()
         return [
@@ -66,4 +67,12 @@ class UserRepository(UserInterface):
             )
         )
         await self.db.commit()
+        return None
+
+    async def update_last_login(self, user_id: uuid.UUID) -> None:
+        await self.db.execute(
+            update(UserModel)
+            .where(UserModel.id == user_id)
+            .values(last_login=datetime.now())
+        )
         return None
