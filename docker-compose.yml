@@ -22,4 +22,6 @@ services:
       - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/foo
     depends_on:
       - db
+    volumes:
+      - ./backend:/src/app
     restart: on-failure

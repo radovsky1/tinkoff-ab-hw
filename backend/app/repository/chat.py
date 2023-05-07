@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import select
 
 from .base import database, AsyncDatabaseSession
-from .model import Friends as FriendModel
+from .models.friend import Friend as FriendModel
 from .repository import ChatInterface
 
 
