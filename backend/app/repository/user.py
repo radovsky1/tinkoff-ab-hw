@@ -5,7 +5,7 @@ from sqlalchemy import select, update
 from datetime import datetime
 
 from .base import database, AsyncDatabaseSession
-from .model import Users as UserModel
+from .models.user import User as UserModel
 from .repository import UserInterface
 from ..domain import User
 

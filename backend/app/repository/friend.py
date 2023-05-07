@@ -4,7 +4,8 @@ import uuid
 from sqlalchemy import select, delete
 
 from .base import database, AsyncDatabaseSession
-from .model import Friends as FriendModel, Users as UserModel
+from .models.friend import Friend as FriendModel
+from .models.user import User as UserModel
 from .repository import FriendInterface
 from ..domain import User, Friend
 
@@ -14,7 +15,10 @@ class FriendRepository(FriendInterface):
         self.db = db
 
     async def create_friend(self, friend: Friend) -> None:
-        f = FriendModel(user_id=friend.user_id, friend_id=friend.friend_id)
+        f = FriendModel(
+            user_id=friend.user_id,
+            friend_id=friend.friend_id,
+        )
         self.db.add(f)
         await self.db.commit()
         await self.db.refresh(f)

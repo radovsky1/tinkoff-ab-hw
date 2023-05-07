@@ -4,3 +4,4 @@
 Makefile
 app/.mypy_cache
 .pytest_cache
+*.csv

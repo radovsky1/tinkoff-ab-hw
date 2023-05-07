@@ -32,7 +32,7 @@ class AuthService:
         return self.password_context.hash(password)
 
     def verify_password(
-            self, plain_password: str, hashed_password: str
+        self, plain_password: str, hashed_password: str
     ) -> bool:
         return self.password_context.verify(plain_password, hashed_password)
 
@@ -48,7 +48,8 @@ class AuthService:
         return jwt.encode(
             payload={
                 **payload.dict(),
-                "exp": datetime.utcnow() + timedelta(
+                "exp": datetime.utcnow()
+                + timedelta(
                     minutes=int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
                 ),
             },
