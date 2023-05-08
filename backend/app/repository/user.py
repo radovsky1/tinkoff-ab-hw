@@ -33,6 +33,8 @@ class UserRepository(UserInterface):
             select(UserModel).where(UserModel.id == user_id)
         )
         user = result.scalars().first()
+        if user is None:
+            raise ValueError("No such user")
         return User(
             id=user.id,
             name=user.name,

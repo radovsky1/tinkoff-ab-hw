@@ -16,6 +16,7 @@ services:
   web:
     build: ./backend
     command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    container_name: web
     ports:
       - 8000:8000
     environment:
@@ -25,3 +26,32 @@ services:
     volumes:
       - ./backend:/src/app
     restart: on-failure
+
+  prometheus:
+    image: prom/prometheus:v2.43.0
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+    depends_on:
+      - web
+
+  grafana:
+    image: grafana/grafana:9.2.15
+    container_name: grafana
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+    env_file:
+      - ./grafana/config.monitoring
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
