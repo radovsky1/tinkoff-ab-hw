@@ -25,3 +25,20 @@ Index(
     User.name,
     User.last_login.desc(),
 )
+
+Index(
+    'users_name_trgm_idx',
+    User.name,
+    postgresql_using='gin',
+    postgresql_ops={
+        'name': 'gin_trgm_ops',
+    }
+)
+
+Index(
+    'users_name_text_pattern_ops_idx',
+    User.name,
+    postgresql_ops={
+        'name': 'text_pattern_ops',
+    }
+)
