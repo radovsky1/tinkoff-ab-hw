@@ -1,30 +1,78 @@
+import typing as tp
 import uuid
 
+from sqlalchemy import select, update
+from datetime import datetime
+
+from .base import database, AsyncDatabaseSession
+from .model import Users as UserModel
 from .repository import UserInterface
 from ..domain import User
-from .base import BaseRepository, database
 
 
 class UserRepository(UserInterface):
-    def __init__(self, db: BaseRepository = database):
+    def __init__(self, db: AsyncDatabaseSession = database):
         self.db = db
 
     async def create_user(self, user: User) -> None:
-        self.db.users.append(user)
+        u = UserModel(
+            id=user.id,
+            name=user.name,
+            email=user.email,
+            bio=user.bio,
+            password=user.password,
+            last_login=datetime.now(),
+        )
+        self.db.add(u)
+        await self.db.commit()
+        await self.db.refresh(u)
         return None
 
     async def get_user_by_id(self, user_id: uuid.UUID) -> User:
-        u = next((user for user in self.db.users if user.id == user_id), None)
-        if u is None:
-            raise ValueError("User not found")
-        return u
+        result = await self.db.execute(
+            select(UserModel).where(UserModel.id == user_id)
+        )
+        user = result.scalars().first()
+        return User(
+            id=user.id,
+            name=user.name,
+            email=user.email,
+            bio=user.bio,
+            password=user.password,
+        )
 
-    async def get_users(self) -> list[User]:
-        return self.db.users
+    async def get_users(self) -> tp.List[User]:
+        result = await self.db.execute(select(UserModel))
+        users = result.scalars().all()
+        return [
+            User(
+                id=user.id,
+                name=user.name,
+                email=user.email,
+                bio=user.bio,
+                password=user.password,
+            )
+            for user in users
+        ]
 
     async def update_user(self, user: User) -> None:
-        for i, u in enumerate(self.db.users):
-            if u.id == user.id:
-                self.db.users[i] = user
-                return None
+        await self.db.execute(
+            update(UserModel)
+            .where(UserModel.id == user.id)
+            .values(
+                name=user.name,
+                email=user.email,
+                bio=user.bio,
+                password=user.password,
+            )
+        )
+        await self.db.commit()
+        return None
+
+    async def update_last_login(self, user_id: uuid.UUID) -> None:
+        await self.db.execute(
+            update(UserModel)
+            .where(UserModel.id == user_id)
+            .values(last_login=datetime.now())
+        )
         return None

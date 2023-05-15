@@ -21,6 +21,10 @@ class UserInterface(metaclass=abc.ABCMeta):
     async def update_user(self, user: User) -> None:
         pass
 
+    @abc.abstractmethod
+    async def update_last_login(self, user: User) -> None:
+        pass
+
 
 class FriendInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
@@ -39,6 +43,6 @@ class FriendInterface(metaclass=abc.ABCMeta):
 class ChatInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     async def is_friend(
-        self, user_id: uuid.UUID, friend_id: uuid.UUID
+            self, user_id: uuid.UUID, friend_id: uuid.UUID
     ) -> bool:
         pass

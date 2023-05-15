@@ -17,7 +17,7 @@ class TokenData(BaseModel):
 
 
 class TokenPayload(BaseModel):
-    sub: uuid.UUID
+    sub: str
     name: str
 
 
@@ -32,12 +32,12 @@ class AuthService:
         return self.password_context.hash(password)
 
     def verify_password(
-        self, plain_password: str, hashed_password: str
+            self, plain_password: str, hashed_password: str
     ) -> bool:
         return self.password_context.verify(plain_password, hashed_password)
 
     async def create_token_data_from_user(self, user: User) -> TokenData:
-        payload = TokenPayload(sub=user.id, name=user.name)
+        payload = TokenPayload(sub=str(user.id), name=user.name)
 
         return TokenData(
             access_token=await self.create_access_token(payload),
@@ -48,8 +48,7 @@ class AuthService:
         return jwt.encode(
             payload={
                 **payload.dict(),
-                "exp": datetime.utcnow()
-                + timedelta(
+                "exp": datetime.utcnow() + timedelta(
                     minutes=int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
                 ),
             },
@@ -63,6 +62,8 @@ class AuthService:
             raise ValueError("User not found")
         if not self.verify_password(password, user.password):
             raise ValueError("Incorrect password")
+
+        await self.user_repo.update_last_login(id_)
 
         return await self.create_token_data_from_user(user)
 
