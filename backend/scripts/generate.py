@@ -24,12 +24,10 @@ def generate():
     name = FAKE.name()
     email = FAKE.email()
     bio = FAKE.text()
-    password = hashlib.sha256(str(random.randint(1, 1_000_000))
-                              .encode()).hexdigest()
-    last_login = FAKE.date_time_between(
-        start_date='-1y',
-        end_date='now'
-    )
+    password = hashlib.sha256(
+        str(random.randint(1, 1_000_000)).encode()
+    ).hexdigest()
+    last_login = FAKE.date_time_between(start_date='-1y', end_date='now')
 
     DATA['id'].append(id)
     DATA['name'].append(name)

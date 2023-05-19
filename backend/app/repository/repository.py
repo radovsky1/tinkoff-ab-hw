@@ -43,6 +43,6 @@ class FriendInterface(metaclass=abc.ABCMeta):
 class ChatInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     async def is_friend(
-            self, user_id: uuid.UUID, friend_id: uuid.UUID
+        self, user_id: uuid.UUID, friend_id: uuid.UUID
     ) -> bool:
         pass
