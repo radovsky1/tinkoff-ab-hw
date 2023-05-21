@@ -13,18 +13,9 @@ class AsyncDatabaseSession:
             future=True,
             echo=True,
         )
-        self._session = sessionmaker(
-            bind=self._engine,
-            expire_on_commit=False,
-            class_=AsyncSession,
-        )()
-
-    def __getattr__(self, name):
-        return getattr(self._session, name)
-
-    async def disconnect(self) -> None:
-        if self._engine:
-            await self._engine.dispose()
+        self.async_session = sessionmaker(
+            self._engine, class_=AsyncSession, expire_on_commit=False
+        )
 
 
 database = AsyncDatabaseSession()
