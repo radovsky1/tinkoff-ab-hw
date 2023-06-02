@@ -14,9 +14,10 @@ class ChatRepository(ChatInterface):
     async def is_friend(
         self, user_id: uuid.UUID, friend_id: uuid.UUID
     ) -> bool:
-        result = await self.db.execute(
-            select()
-            .where(FriendModel.user_id == user_id)
-            .where(FriendModel.friend_id == friend_id)
-        )
+        async with self.db.async_session() as session:
+            result = await session.execute(
+                select()
+                .where(FriendModel.user_id == user_id)
+                .where(FriendModel.friend_id == friend_id)
+            )
         return result.scalars().first() is not None

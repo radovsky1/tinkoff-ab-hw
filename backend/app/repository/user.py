@@ -1,8 +1,8 @@
 import typing as tp
 import uuid
+from datetime import datetime
 
 from sqlalchemy import select, update
-from datetime import datetime
 
 from .base import database, AsyncDatabaseSession
 from .models.user import User as UserModel
@@ -21,17 +21,17 @@ class UserRepository(UserInterface):
             email=user.email,
             bio=user.bio,
             password=user.password,
-            last_login=datetime.now(),
         )
-        self.db.add(u)
-        await self.db.commit()
-        await self.db.refresh(u)
+        async with self.db.async_session() as session:
+            session.add(u)
+            await session.commit()
         return None
 
     async def get_user_by_id(self, user_id: uuid.UUID) -> User:
-        result = await self.db.execute(
-            select(UserModel).where(UserModel.id == user_id)
-        )
+        async with self.db.async_session() as session:
+            result = await session.execute(
+                select(UserModel).where(UserModel.id == user_id)
+            )
         user = result.scalars().first()
         if user is None:
             raise ValueError("No such user")
@@ -44,7 +44,8 @@ class UserRepository(UserInterface):
         )
 
     async def get_users(self) -> tp.List[User]:
-        result = await self.db.execute(select(UserModel))
+        async with self.db.async_session() as session:
+            result = await session.execute(select(UserModel))
         users = result.scalars().all()
         return [
             User(
@@ -58,23 +59,25 @@ class UserRepository(UserInterface):
         ]
 
     async def update_user(self, user: User) -> None:
-        await self.db.execute(
-            update(UserModel)
-            .where(UserModel.id == user.id)
-            .values(
-                name=user.name,
-                email=user.email,
-                bio=user.bio,
-                password=user.password,
+        async with self.db.async_session() as session:
+            await session.execute(
+                update(UserModel)
+                .where(UserModel.id == user.id)
+                .values(
+                    name=user.name,
+                    email=user.email,
+                    bio=user.bio,
+                    password=user.password,
+                )
             )
-        )
-        await self.db.commit()
+            await session.commit()
         return None
 
     async def update_last_login(self, user_id: uuid.UUID) -> None:
-        await self.db.execute(
-            update(UserModel)
-            .where(UserModel.id == user_id)
-            .values(last_login=datetime.now())
-        )
+        async with self.db.async_session() as session:
+            await session.execute(
+                update(UserModel)
+                .where(UserModel.id == user_id)
+                .values(last_login=datetime.now())
+            )
         return None
