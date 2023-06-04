@@ -29,12 +29,36 @@ services:
     ports:
       - 8000:8000
     environment:
+      - AMQP_URL=amqp://guest:guest@rabbitmq:5672/
       - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/foo
     depends_on:
       - db
+      - rabbitmq
     volumes:
       - ./backend:/src/app
     restart: on-failure
+
+  feed-worker:
+    build: ./feed-worker
+    command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8080
+    container_name: feed-worker
+    ports:
+      - 8080:8080
+    environment:
+      - AMQP_URL=amqp://guest:guest@rabbitmq:5672/
+      - BACKEND_SERVICE_HOST=http://web-1:8000
+      - REDIS_HOSTS=redis:6379
+    depends_on:
+      - rabbitmq
+      - redis
+    volumes:
+      - ./feed-worker:/src/app
+    restart: on-failure
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
 
   web-2:
     build: ./backend
@@ -108,3 +132,8 @@ services:
       - ./grafana/config.monitoring
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
+
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+      - 5672:5672
