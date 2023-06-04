@@ -32,7 +32,7 @@ Index(
     postgresql_using='gin',
     postgresql_ops={
         'name': 'gin_trgm_ops',
-    }
+    },
 )
 
 Index(
@@ -40,5 +40,5 @@ Index(
     User.name,
     postgresql_ops={
         'name': 'text_pattern_ops',
-    }
+    },
 )
