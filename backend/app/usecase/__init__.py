@@ -1,8 +1,9 @@
-from .usecase import UserInterface, FriendInterface
+from .usecase import UserInterface, FriendInterface, PostInterface
 from .friend import FriendUsecase
 from .user import UserUsecase
 from .auth import AuthService
 from .chat import ChatUsecase
+from .post import PostUsecase
 
 __all__ = [
     "UserInterface",
@@ -11,4 +12,6 @@ __all__ = [
     "FriendUsecase",
     "AuthService",
     "ChatUsecase",
+    "PostInterface",
+    "PostUsecase",
 ]

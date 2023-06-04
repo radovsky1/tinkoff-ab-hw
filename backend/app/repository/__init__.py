@@ -1,6 +1,7 @@
 from .user import UserRepository, UserInterface as UserRepoInterface
 from .friend import FriendRepository, FriendInterface as FriendRepoInterface
 from .chat import ChatRepository, ChatInterface as ChatRepoInterface
+from .post import PostRepository, PostInterface as PostRepoInterface
 
 __all__ = [
     "UserRepository",
@@ -9,4 +10,6 @@ __all__ = [
     "FriendRepoInterface",
     "ChatRepository",
     "ChatRepoInterface",
+    "PostRepository",
+    "PostRepoInterface",
 ]
