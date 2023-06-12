@@ -1,7 +1,8 @@
 import abc
 import uuid
+import typing as tp
 
-from ..domain import User, Friend
+from ..domain import User, Friend, Post
 
 
 class UserInterface(metaclass=abc.ABCMeta):
@@ -45,4 +46,18 @@ class ChatInterface(metaclass=abc.ABCMeta):
     async def is_friend(
         self, user_id: uuid.UUID, friend_id: uuid.UUID
     ) -> bool:
+        pass
+
+
+class PostInterface(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    async def create_post(self, post: Post) -> None:
+        pass
+
+    @abc.abstractmethod
+    async def get_posts(self, user_id: uuid.UUID) -> tp.List[Post]:
+        pass
+
+    @abc.abstractmethod
+    async def get_post_by_id(self, post_id: uuid.UUID) -> Post:
         pass

@@ -14,10 +14,14 @@ class Message(Base):
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True
     )
     sender_id = Column(
-        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4,
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
     )
     receiver_id = Column(
-        UUID(as_uuid=True), default=uuid.uuid4, nullable=False,
+        UUID(as_uuid=True),
+        default=uuid.uuid4,
+        nullable=False,
     )
     text = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -36,11 +40,11 @@ Index(
     postgresql_using='gin',
     postgresql_ops={
         'description': 'gin_trgm_ops',
-    }
+    },
 )
 
 Index(
     'messages_text_ts_idx',
     func.to_tsvector('russian', text('text')),
-    postgresql_using='gin'
+    postgresql_using='gin',
 )
